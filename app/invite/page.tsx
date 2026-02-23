@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ export default function InvitePage() {
   const [open, setOpen] = useState(false);
   const [showCards, setShowCards] = useState(false);
   const router = useRouter();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const cardImages = [
     "/card1.jpeg",
@@ -19,17 +20,29 @@ export default function InvitePage() {
     "/card6.jpeg",
   ];
 
+  // const handleOpen = () => {
+  //   setOpen(true);
+
+  //   // Wait for animation to finish before showing cards
+  //   setTimeout(() => {
+  //     setShowCards(true);
+  //   }, 1600); // match animation duration
+  // };
   const handleOpen = () => {
     setOpen(true);
 
-    // Wait for animation to finish before showing cards
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+
     setTimeout(() => {
       setShowCards(true);
-    }, 1600); // match animation duration
+    }, 1600);
   };
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-[#3b0000] via-[#6b0000] to-black overflow-hidden">
+      <audio ref={audioRef} src="/classical.mp3" loop />
       {/* Envelope Section */}
       {!showCards && (
         <div className="flex items-center justify-center min-h-screen">
